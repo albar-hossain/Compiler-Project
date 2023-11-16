@@ -5,49 +5,60 @@
 using namespace std;
 
 int main() {
+	// Declare a string to store user input
 	string input;
+
+	// Prompt the user to enter a string
 	cout << "Enter a string: ";
 	getline(cin, input);
 
+	// Declare a string to store the current token
 	string token = "";
+
+	// Initialize a counter for generating unique identifiers for identifiers
 	int count = 0;
-	for (char c : input) {
-		if (isalnum(c)) {
-			// Identifier or Number token
-			token += c;
+
+	// Loop through each character in the input string
+	for (char lexeme : input) {
+		if (isalnum(lexeme)) {
+			// If the character is alphanumeric, it is part of an identifier or number token
+			token += lexeme;
 		}
-		else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '=' || c == ';') {
-			// Operator or Semicolon token
+		else if (lexeme == '+' || lexeme == '-' || lexeme == '*' || lexeme == '/' || lexeme == '%' || lexeme == '=' || lexeme == ';') {
+			// If the character is an operator or semicolon, handle the current token
 			if (!token.empty()) {
 				// Check if the token is a number
 				bool isNumber = true;
-				for (char tc : token) {
-					if (!isdigit(tc)) {
+				for (char numbers : token) {
+					if (!isdigit(numbers)) {
 						isNumber = false;
 						break;
 					}
 				}
 
+				// Output the token based on whether it's an identifier or number
 				if (isNumber) {
 					cout << "<" << token << ">";
 				}
 				else {
 					cout << "<id," << count++ << ">";
 				}
-				token = "";
+				token = ""; // Reset the token
 			}
-			cout << "<" << c << ">";
+
+			// Output the operator or semicolon
+			cout << "<" << lexeme << ">";
 		}
-		else if (!isspace(c)) {
-			// Invalid token
-			cout << "Input contains invalid token: " << c << endl;
+		else if (!isspace(lexeme)) {
+			// If the character is not alphanumeric or a space, it's an invalid token
+			cout << "\nInput contains invalid token: " << lexeme << endl;
 			return 1; // Exit with an error code
 		}
 		else if (!token.empty()) {
-			// Output Identifier or Number token if any
+			// Output Identifier or Number token if any when encountering a space
 			bool isNumber = true;
-			for (char tc : token) {
-				if (!isdigit(tc)) {
+			for (char numbers : token) {
+				if (!isdigit(numbers)) {
 					isNumber = false;
 					break;
 				}
@@ -59,21 +70,22 @@ int main() {
 			else {
 				cout << "<id," << count++ << ">";
 			}
-			token = "";
+			token = ""; // Reset the token
 		}
 	}
 
+	// Output any remaining Identifier or Number token after the loop
 	if (!token.empty()) {
-		// Output any remaining Identifier or Number token
 		// Check if the token is a number
 		bool isNumber = true;
-		for (char tc : token) {
-			if (!isdigit(tc)) {
+		for (char numbers : token) {
+			if (!isdigit(numbers)) {
 				isNumber = false;
 				break;
 			}
 		}
 
+		// Output the remaining token
 		if (isNumber) {
 			cout << "<" << token << ">";
 		}
@@ -82,5 +94,5 @@ int main() {
 		}
 	}
 
-	return 0;
+	return 0; // Exit successfully
 }
